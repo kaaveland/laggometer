@@ -23,7 +23,7 @@ async function generateHar(
   const temp = await Deno.makeTempFile();
   const context = await browser.newContext({
     recordHar: {
-      mode: "minimal",
+      mode: "full",
       path: temp,
     },
     acceptDownloads: false,

@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "imports": {
+    "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7",
+    "@std/assert": "jsr:@std/assert@1",
+    "playwright-core": "npm:playwright-core@^1.52.0"
+  }
+}

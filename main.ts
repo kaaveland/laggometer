@@ -189,7 +189,7 @@ await new Command()
     { default: 10000 },
   )
   .option(
-    "-c --choose-by <value:EventChoice>",
+    "-r --rank-by <rankBy:string>",
     "Rank HAR files by time until this event",
     {
       default: "onLoad",
@@ -197,6 +197,19 @@ await new Command()
   )
   .arguments("<urls...:string>")
   .action(async (options, ...urls: string[]) => {
+    const validMetrics: EventChoice[] = [
+      "onContentLoad",
+      "onLoad",
+      "_fullyLoaded",
+    ];
+    if (!validMetrics.includes(options.rankBy as EventChoice)) {
+      console.error(
+        `Error: Invalid --choose-by value "${options.rankBy}". Valid options are: ${
+          validMetrics.join(", ")
+        }`,
+      );
+      Deno.exit(1);
+    }
     if (urls.length == 0) {
       console.error("Provide at least one url");
       Deno.exit(1);
@@ -207,7 +220,7 @@ await new Command()
         parsed,
         options.timeout,
         options.attempts,
-        options.chooseBy as EventChoice,
+        options.rankBy as EventChoice,
       );
       const result = Object.fromEntries(
         parsed.map((
